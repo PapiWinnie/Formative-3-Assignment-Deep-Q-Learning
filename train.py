@@ -16,8 +16,8 @@ from pathlib import Path
 
 import ale_py
 import gymnasium as gym
+import numpy as np
 from stable_baselines3 import DQN
-from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.env_util import make_atari_env
 from stable_baselines3.common.vec_env import VecFrameStack
 
@@ -29,25 +29,6 @@ CSV_FIELDS = [
     "eps_start", "eps_end", "eps_fraction", "timesteps",
     "final_ep_rew_mean", "final_ep_len_mean", "train_seconds", "model_path",
 ]
-
-
-class EpisodeStatsCallback(BaseCallback):
-    """Captures the latest rollout ep_rew_mean/ep_len_mean from SB3's logger."""
-
-    def __init__(self):
-        super().__init__()
-        self.last_rew_mean = None
-        self.last_len_mean = None
-
-    def _on_step(self) -> bool:
-        return True
-
-    def _on_rollout_end(self) -> None:
-        data = self.model.logger.name_to_value
-        if "rollout/ep_rew_mean" in data:
-            self.last_rew_mean = data["rollout/ep_rew_mean"]
-        if "rollout/ep_len_mean" in data:
-            self.last_len_mean = data["rollout/ep_len_mean"]
 
 
 def build_env(env_id: str, policy: str):
@@ -103,10 +84,16 @@ def main():
         tensorboard_log="./tb_logs",
     )
 
-    stats = EpisodeStatsCallback()
     start = time.time()
-    model.learn(total_timesteps=args.timesteps, callback=stats, tb_log_name=run_name)
+    model.learn(total_timesteps=args.timesteps, tb_log_name=run_name)
     train_seconds = time.time() - start
+
+    if model.ep_info_buffer:
+        final_rew_mean = float(np.mean([ep["r"] for ep in model.ep_info_buffer]))
+        final_len_mean = float(np.mean([ep["l"] for ep in model.ep_info_buffer]))
+    else:
+        final_rew_mean = None
+        final_len_mean = None
 
     model.save(model_path)
     # Keep a canonical dqn_model.zip pointing at whichever run was trained most recently.
@@ -122,8 +109,8 @@ def main():
             "policy": args.policy, "lr": args.lr, "gamma": args.gamma,
             "batch_size": args.batch_size, "eps_start": args.eps_start,
             "eps_end": args.eps_end, "eps_fraction": args.eps_fraction,
-            "timesteps": args.timesteps, "final_ep_rew_mean": stats.last_rew_mean,
-            "final_ep_len_mean": stats.last_len_mean, "train_seconds": round(train_seconds, 1),
+            "timesteps": args.timesteps, "final_ep_rew_mean": final_rew_mean,
+            "final_ep_len_mean": final_len_mean, "train_seconds": round(train_seconds, 1),
             "model_path": str(model_path),
         })
 
