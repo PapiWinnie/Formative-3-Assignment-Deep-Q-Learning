@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+tb_logs/
+venv/
+.venv/
+
+# Per-experiment model checkpoints are large (~26MB each) and there will be
+# 30 of them across the group's runs. Only the canonical dqn_model.zip
+# (the final chosen model) is tracked in git.
+models/dqn_model_*.zip
