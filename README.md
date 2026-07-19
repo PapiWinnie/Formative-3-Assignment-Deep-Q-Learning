@@ -4,6 +4,8 @@ Train and evaluate a Deep Q-Network (DQN) agent on an Atari game using **Stable 
 
 **Repository:** [https://github.com/PapiWinnie/Formative-3-Assignment-Deep-Q-Learning](https://github.com/PapiWinnie/Formative-3-Assignment-Deep-Q-Learning)
 
+**Coach / group hyperparameter sheet:** [`Team_Task_Sheet_Formative3_Group3.pdf`](Team_Task_Sheet_Formative3_Group3.pdf)
+
 ---
 
 ## Environment
@@ -34,6 +36,7 @@ Pong is a classic Atari control task: the agent must track the ball and paddle f
 | `experiments_log_gamma.csv` | Sougnabe gamma runs |
 | `experiments_log_Epsilon.csv` | David epsilon-schedule runs |
 | `colab/` | Member Colab notebooks used to run the sweeps |
+| `Team_Task_Sheet_Formative3_Group3.pdf` | Filled coach / group hyperparameter task sheet |
 | `requirements.txt` | Python dependencies |
 
 ---
@@ -251,16 +254,21 @@ The script uses `render_mode="human"` and `env.render()` so gameplay is visible 
 
 ## Gameplay video
 
-> **Add the recording here before final submission.**
+Recording of `play.py` loading `models/dqn_model.zip` (Winston’s best CNN, `lr=3e-05`, 500k steps) and playing `ALE/Pong-v5` with a greedy policy.
 
-Record `play.py` running so the agent is visible interacting with Pong (screen capture of the GUI window), then link or embed it below.
+**Gameplay video:** [https://youtu.be/zJxB-QKsK2A](https://youtu.be/zJxB-QKsK2A)
 
-**Gameplay video:** _[paste Drive / YouTube / GitHub release link here]_
+Sample evaluation from this run (3 episodes, greedy):
 
-Suggested capture:
+| Episode | Reward | Length |
+|---|---|---|
+| 1 | −14.00 | 7269 |
+| 2 | −19.00 | 7420 |
+| 3 | −19.00 | 4823 |
+| **Mean** | **−17.33** | |
 
 ```bash
-python play.py --model models/dqn_model.zip --env ALE/Pong-v5 --policy cnn --episodes 3
+python play.py --model models/dqn_model.zip --env ALE/Pong-v5 --episodes 3
 ```
 
 ---
@@ -285,6 +293,7 @@ Be ready for Q&A on exploration–exploitation trade-offs, why the final agent b
 - [x] `play.py` — load model, greedy evaluation, GUI render
 - [x] 10 experiments per member documented in tables above
 - [x] `models/dqn_model.zip` in the repository
-- [ ] Gameplay video linked in this README
-- [ ] Coach hyperparameter sheet filled, saved as PDF, and added to the repo
+- [x] Gameplay video linked in this README: [https://youtu.be/zJxB-QKsK2A](https://youtu.be/zJxB-QKsK2A)
+- [x] Coach hyperparameter sheet: [`Team_Task_Sheet_Formative3_Group3.pdf`](Team_Task_Sheet_Formative3_Group3.pdf)
 - [ ] Presentation slot booked; cameras on; gameplay clip ready
+- [ ] Push latest README / PDF / `dqn_model.zip` to GitHub and submit (zip or repo URL)
