@@ -169,6 +169,50 @@ Raw logs: `experiments_log.csv`, `experiments_log_gamma.csv`, `experiments_log_E
 
 ---
 
+## Leaderboards
+
+Ranked by **final mean episode reward** (higher / less negative is better).
+
+### Top 3 per member
+
+#### Winston
+
+| Rank | Run | Key settings | Reward | Ep. length |
+|---|---|---|---|---|
+| 1 | `winston_lr3e-05_cnn` | CNN, lr=3e-05, γ=0.99, batch=32, ε=1.0→0.05 @0.1 | **−15.86** | ≈7599 |
+| 2 | `winston_lr1e-05_cnn` | CNN, lr=1e-05, γ=0.99, batch=32, ε=1.0→0.05 @0.1 | −20.53 | ≈3518 |
+| 3 | `winston_lr3e-04_mlp` | MLP, lr=3e-04, γ=0.99, batch=32, ε=1.0→0.05 @0.1 | −20.64 | ≈3643 |
+
+#### Sougnabe
+
+| Rank | Run | Key settings | Reward | Ep. length |
+|---|---|---|---|---|
+| 1 | `Sougnabe_g097` | CNN, lr=1e-04, **γ=0.97**, batch=32, ε=1.0→0.05 @0.1 | **−19.99** | ≈3779 |
+| 2 | `Sougnabe_g099` | CNN, lr=1e-04, **γ=0.99**, batch=32, ε=1.0→0.05 @0.1 | −20.35 | ≈3489 |
+| 3 | `Sougnabe_g0995` | CNN, lr=1e-04, **γ=0.995**, batch=32, ε=1.0→0.05 @0.1 | −20.41 | ≈3563 |
+
+#### David
+
+| Rank | Run | Key settings | Reward | Ep. length |
+|---|---|---|---|---|
+| 1 | `david_eps_low_end` | CNN, lr=1e-04, γ=0.99, batch=32, ε=1.0→**0.01** @0.1 | **−17.00** | ≈7134 |
+| 2 | `david_eps_low_start` | CNN, lr=1e-04, γ=0.99, batch=32, ε=**0.2**→0.05 @0.1 | −17.74 | ≈6510 |
+| 3 | `david_eps_high_end` | CNN, lr=1e-04, γ=0.99, batch=32, ε=1.0→**0.1** @0.1 | −18.53 | ≈7369 |
+
+### Overall top 5 (all experiments)
+
+| Rank | Member | Run | Key settings | Reward |
+|---|---|---|---|---|
+| 1 | Winston | `winston_lr3e-05_cnn` | CNN, **lr=3e-05**, γ=0.99, ε=1.0→0.05 @0.1 | **−15.86** |
+| 2 | David | `david_eps_low_end` | CNN, lr=1e-04, ε=1.0→**0.01** @0.1 | −17.00 |
+| 3 | David | `david_eps_low_start` | CNN, lr=1e-04, ε=**0.2**→0.05 @0.1 | −17.74 |
+| 4 | David | `david_eps_high_end` | CNN, lr=1e-04, ε=1.0→**0.1** @0.1 | −18.53 |
+| 5 | David | `david_eps_fast_decay` | CNN, lr=1e-04, ε=1.0→0.05 @**0.05** | −18.75 |
+
+Winston’s CNN + low learning rate remains #1 overall. David’s epsilon sweeps fill ranks 2–5. Sougnabe’s best (γ=0.97, −19.99) is strong within the gamma axis but sits just outside the global top 5, partly because those runs used a shorter 150k-timestep budget.
+
+---
+
 ## Best configuration (submitted model)
 
 The strongest measured training result was Winston’s CNN run:
